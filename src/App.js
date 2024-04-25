@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { Web3Provider } from "@ethersproject/providers";
 import ConnectWallet from "./components/ConnectWallet";
-import LoginPage from "./pages/Login";
 import Home from "./pages/Home";
 import Album from "./pages/Album";
 import MyAlbums from "./pages/MyAlbum";

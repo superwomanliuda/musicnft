@@ -1,38 +1,204 @@
-.App {
-  text-align: center;
-}
+@import "~antd/dist/antd.css";
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.ant-layout {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.ant-layout-sider {
+  background-image: linear-gradient(#1e2422, #000000);
+  background-attachment: fixed;
+  width: 800px;
+  padding: 30px;
+}
+
+.ant-layout-content {
+  background-image: linear-gradient(#494b4a, #030404);
+  background-attachment: fixed;
+}
+
+.ant-layout-footer {
+  background-color: #292929;
+  padding-bottom: 4px;
+  padding-top: 15px;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before {
+  border-bottom: 0px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+
+.ant-tabs-tab-btn:focus {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.ant-tabs-tab {
+  color: rgb(125, 125, 125);
+  font-size: 18px;
+  letter-spacing: 2px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ant-tabs-tab:hover {
+  color: white;
+}
+
+.ant-tabs-ink-bar {
+  background: #1db954;
+  width: 10px;
+}
+
+.ant-slider-track {
+  background-color: #1db954;
+}
+
+.ant-slider:hover .ant-slider-track {
+  background-color: #1db954;
+}
+
+.ant-slider-handle {
+  border: 0px;
+}
+
+.ant-slider-rail {
+  background-color: #3e3e3e;
+}
+
+.logo {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+.searchBar {
+  border-top: 2px solid rgb(125, 125, 125);
+  border-bottom: 2px solid rgb(125, 125, 125);
+  padding: 15px 0px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sideBar {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.recentPlayed {
+  border-top: 2px solid rgb(125, 125, 125);
+  border-bottom: 2px solid rgb(125, 125, 125);
+  padding: 15px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 400px);
+}
+
+.recentTitle {
+  color: rgb(125, 125, 125);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.install {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contentWindow {
+  padding: 50px 0px;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #292929;
+  color: rgb(205, 203, 203) !important;
+}
+
+.connectWalletContainer {
+  margin-bottom: 20px; /* 如果需要，在组件周围添加空间 */
+  padding: 10px; /* 根据需要添加内边距 */
+  color: rgb(255, 255, 252); /* 设置文本颜色为白色 */
+  /* 可以添加更多样式，比如内边距、背景等 */
+}
+
+.connectButton {
+  background-color: #1db954; /* 绿色背景 */
+  color: white; /* 白色文字 */
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px; /* 增加按钮上方的间距 */
+}
+
+.disconnectButton {
+  background-color: white; /* 白色背景 */
+  color: black; /* 黑色文字 */
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.myAlbumsLink {
+  font-size: 20px; /* 与'首页'链接的大小匹配 */
+  color: #1db954; /* 绿色 */
+  margin-top: 40px; /* 增加与领取代币按钮的间距 */
+  cursor: pointer;
+}
+
+.sideBar p {
+  color: #1db954;
+  font-size: 20px; /* 确保侧边栏中所有链接的一致性 */
+  margin-bottom: 5px;
+}
+
+.fixedFooter {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #292929; /* 保持原有的背景颜色 */
+  padding: 10px 0; /* 可以调整内边距以适合内容 */
+  z-index: 1000; /* 确保播放器始终在其他内容上方 */
+}
+
+.ant-layout-content {
+  padding-bottom: 1000px; /* 调整这个值以适应 Footer 的高度 */
+}
+
+.walletAddress {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: 16px;
+  color: white;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.currentLink {
+  color: white; /* 当前页面的链接文字颜色 */
+  font-weight: bold; /* 加粗 */
+}
+
+.currentLink::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  margin-top: 5px; /* 调整横线与文字的距离 */
 }

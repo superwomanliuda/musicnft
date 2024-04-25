@@ -1,0 +1,51 @@
+.release-album-container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+.release-album-container h2 {
+  color: white; /* 设置标题文本为白色 */
+}
+
+.release-album-container,
+.wallet-connect-prompt h2 {
+  color: white; /* 设置文本为白色 */
+}
+
+.release-album-form input,
+.release-album-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* 确保padding不会影响总宽度 */
+}
+
+.wallet-connect-prompt {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.release-album-form button {
+  background-color: #1db954; /* 绿色背景 */
+  color: white; /* 白色文字 */
+  border: none;
+  cursor: pointer;
+}
+
+.release-album-form input {
+  color: black; /* 黑色文本 */
+  background-color: #fff; /* 为确保背景是白色，增强对比度 */
+  border: 1px solid #ccc; /* 灰色边框 */
+}
+
+.release-album-form input:disabled,
+.release-album-form button:disabled {
+  opacity: 0.6; /* 降低透明度以表示禁用状态 */
+  cursor: not-allowed; /* 鼠标指针为禁止状态 */
+  background-color: #f5f5f5; /* 浅灰色背景表示禁用状态 */
+  color: black; /* 黑色文字表示禁用状态 */
+  border-color: #ccc; /* 灰色边框表示禁用状态 */
+}

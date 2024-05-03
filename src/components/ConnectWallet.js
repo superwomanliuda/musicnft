@@ -11,7 +11,7 @@ const injectedConnector = new InjectedConnector({
 const ConnectWallet = ({ onConnected }) => {
   const { activate, deactivate, account, active } = useWeb3React();
 
-  const connect = async () => {
+  const connect = useCallback(async () => {
     try {
       await activate(injectedConnector);
       localStorage.setItem("isWalletConnected", "true");
@@ -19,11 +19,10 @@ const ConnectWallet = ({ onConnected }) => {
     } catch (e) {
       console.error("Connection Failed", e);
     }
-  };
+  }, [activate]); // 加入 activate 作为依赖
 
   useEffect(() => {
     if (account) {
-      // 发送钱包地址到后端生成自定义令牌
       fetch("https://music-nft-mu.vercel.app/generateToken", {
         method: "POST",
         headers: {
@@ -33,11 +32,9 @@ const ConnectWallet = ({ onConnected }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // 使用返回的自定义令牌进行后续操作
           const auth = getAuth();
           signInWithCustomToken(auth, data.token)
             .then((userCredential) => {
-              // Signed in
               const user = userCredential.user;
               console.log("User signed in:", user);
             })
@@ -62,11 +59,18 @@ const ConnectWallet = ({ onConnected }) => {
     localStorage.removeItem("isWalletConnected");
   };
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (localStorage.getItem("isWalletConnected") === "true" && !active) {
       connect();
     }
-  }, [active]);
+  }, [active]);*/
+
+  // 自动连接钱包的逻辑
+  useEffect(() => {
+    if (localStorage.getItem("isWalletConnected") === "true" && !active) {
+      connect();
+    }
+  }, [active, connect]); // 现在 connect 由 useCallback 处理，可以安全加入依赖
 
   return (
     <div className="connectWalletContainer">

@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import Album from "./pages/Album";
 import MyAlbums from "./pages/MyAlbum";
 import "./App.css";
-import { Layout, message } from "antd";
+import { Layout } from "antd";
 import MusicIcon from "./images/music.png";
 import { SearchOutlined, DownCircleOutlined } from "@ant-design/icons";
 import AudioPlayer from "./components/AudioPlayer";
@@ -55,16 +55,6 @@ const App = () => {
   const navigate = useNavigate();
   const [nftAlbum, setNftAlbum] = useState();
   const location = useLocation();
-
-  /*const handleMyAlbumsClick = (e) => {
-    console.log("Active status in handleMyAlbumsClick:", active);
-    if (!active) {
-      e.preventDefault();
-      message.warning("Please connect your wallet first.");
-    } else {
-      navigate("/my-albums");
-    }
-  };*/
 
   useEffect(() => {
     console.log("Active status on App load:", active); // 初始加载时打印 active 状态

@@ -53,3 +53,23 @@
   font-size: 20px; /* 字体大小设置为20px */
   margin: 20px 0; /* 添加上下外边距以留出空间 */
 }
+
+.albumSelection .image-container {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px; /* 图片下方留出一些间距 */
+  border-radius: 8px; /* 图片添加圆角 */
+  background-color: #ccc; /* 灰色背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+}
+
+.albumSelection img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保证图片内容按比例填充，不变形 */
+  border-radius: 8px; /* 确保图片也有圆角 */
+}

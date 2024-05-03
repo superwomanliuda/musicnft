@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Opensea from "../images/opensea.png"; // 保留 Opensea 图片导入
-import { ClockCircleOutlined } from "@ant-design/icons"; // 保留 ClockCircleOutlined 图标导入
-import { useWeb3React } from "@web3-react/core"; // 保留 useWeb3React 钩子导入
+import Opensea from "../images/opensea.png";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import { useWeb3React } from "@web3-react/core";
 import Moralis from "moralis";
 import { ethers } from "ethers"; // etherv5的导入
 import "./Album.css";
@@ -11,6 +11,7 @@ import LalaTokenABI from "../constants/abi/LalaToken.json";
 import contractAddresses from "../constants/contractAddress.json";
 import { Spin, Alert, message } from "antd";
 import WithdrawToken from "../components/WithdrawToken";
+import AudioPlayer from "../components/AudioPlayer";
 
 const Album = ({ setNftAlbum }) => {
   const location = useLocation();
@@ -18,10 +19,8 @@ const Album = ({ setNftAlbum }) => {
   const [album, setAlbum] = useState([]);
   const { account, active, library, chainId } = useWeb3React();
   const [albumMetadata, setAlbumMetadata] = useState(null);
-  const [price, setPrice] = useState(0); // 新增，用于存储专辑价格
-  //const rpcUrl = "http://127.0.0.1:8545/";
-  //"https://polygon-mumbai.g.alchemy.com/v2/Pb1I4GCYY0914_r0zCsVA7U7aoLVSS-6";
-  //const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+  const [price, setPrice] = useState(0);
+  const [albumName, setAlbumName] = useState("");
   const [isApproving, setIsApproving] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
   const [isBuying, setIsBuying] = useState(false);
@@ -58,6 +57,8 @@ const Album = ({ setNftAlbum }) => {
         try {
           // 获取专辑信息
           const albumInfo = await albumContract.getAlbumInfo();
+          const albumName = albumInfo[0];
+          setAlbumName(albumName);
           setPrice(albumInfo.price.toString());
           // 获取可出售NFT数量
           const availableCount = await albumContract.getAvailableTokensCount();
@@ -170,7 +171,7 @@ const Album = ({ setNftAlbum }) => {
         artistName: albumMetadata.artist,
       }));
 
-      setNftAlbum(albumWithDetails); // 设置整个专辑，包括封面图和艺术家名称
+      setNftAlbum(albumWithDetails);
     }
   };
 
@@ -301,17 +302,19 @@ const Album = ({ setNftAlbum }) => {
             onClose={() => setError("")}
           />
         )}
-        <div className="purchaseInfo">
-          <p className="nftInfoText">Price: {price} LalaTokens(wei)</p>
-          <p className="nftInfoText">Available NFTs: {availableNFTsCount}</p>
+        <div className="nftInformation">
+          <h2>NFT Information</h2>
+          <p>NFT name: {albumName}</p>
+          <p>Price: {price} LalaTokens(wei)</p>
+          <p>Available NFTs: {availableNFTsCount}</p>
           <button
             onClick={handleBuyNFT}
             disabled={isBuying || !active || !availableNFTsCount}
           >
             {isBuying ? "Buying..." : "Buy NFT"}
           </button>
-          {isOwner && <WithdrawToken albumAddress={albumDetails.address} />}
         </div>
+        {isOwner && <WithdrawToken albumAddress={albumDetails.address} />}
       </div>
     </>
   );

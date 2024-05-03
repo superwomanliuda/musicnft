@@ -14,18 +14,11 @@ const { ethers } = require("ethers");
 const Home = () => {
   const [albumData, setAlbumData] = useState([]);
   const [walletConnected, setWalletConnected] = useState(false);
+  const [imageStatus, setImageStatus] = useState({});
   const { active, chainId } = useWeb3React();
 
   useEffect(() => {
     const fetchAlbums = async () => {
-      /*if (!active) {
-        console.log("Wallet is not connected");
-        return (
-          <div className="wallet-connect-prompt">
-            Please connect your wallet to view albums.
-          </div>
-        );
-      }*/
       if (!active) {
         console.log("Wallet is not connected");
         setWalletConnected(false);
@@ -64,6 +57,15 @@ const Home = () => {
               provider
             );
             const albumInfo = await albumContract.getAlbumInfo();
+            console.log("Fetched albumInfo:", albumInfo);
+
+            if (
+              !albumInfo.ipfsUri ||
+              !albumInfo.ipfsUri.startsWith("ipfs://")
+            ) {
+              console.error("Invalid or missing IPFS URI:", albumInfo.ipfsUri);
+              return null; // Skip this album if the IPFS URI is invalid or missing
+            }
 
             // 将专辑的 IPFS 链接转换为 HTTP 链接
             const albumInfoHttpLink = albumInfo.ipfsUri.replace(
@@ -71,28 +73,41 @@ const Home = () => {
               "https://ipfs.io/ipfs/"
             );
 
-            // 获取专辑 JSON 数据
-            const albumJsonResponse = await fetch(albumInfoHttpLink);
-            const albumJson = await albumJsonResponse.json();
+            try {
+              const albumJsonResponse = await fetch(albumInfoHttpLink);
+              if (!albumJsonResponse.ok) {
+                throw new Error(
+                  `HTTP error! status: ${albumJsonResponse.status}`
+                );
+              }
+              const albumJson = await albumJsonResponse.json();
 
-            // 从 JSON 数据中提取专辑封面和标题
-            const albumCoverLink = albumJson.image.replace(
-              "ipfs://",
-              "https://ipfs.io/ipfs/"
-            );
-            const albumTitle = albumJson.title;
+              const albumCoverLink = albumJson.image.replace(
+                "ipfs://",
+                "https://ipfs.io/ipfs/"
+              );
+              const albumTitle = albumJson.title;
 
-            return {
-              address: address,
-              title: albumTitle, // 使用 JSON 中的标题
-              image: albumCoverLink, // 使用 JSON 中的封面图片链接
-              price: albumInfo.price,
-              amount: albumInfo.amount,
-            };
+              return {
+                address: address,
+                title: albumTitle,
+                image: albumCoverLink,
+                price: albumInfo.price,
+                amount: albumInfo.amount,
+              };
+            } catch (error) {
+              console.error(
+                "Error fetching or processing album JSON data:",
+                error
+              );
+              return null;
+            }
           })
         );
-        console.log("Fetched albums:", albums);
-        setAlbumData(albums);
+        // 在将数据设置到状态之前，倒序数组
+        const sortedAlbums = albums.filter((album) => album !== null).reverse();
+        console.log("Fetched and sorted albums:", sortedAlbums);
+        setAlbumData(sortedAlbums); // Set the sorted data to the state
       } catch (error) {
         console.error("Error fetching album data:", error);
       }
@@ -101,33 +116,49 @@ const Home = () => {
     fetchAlbums();
   }, [active, chainId]);
 
+  const handleImageLoaded = (albumId) => {
+    setImageStatus((prev) => ({ ...prev, [albumId]: "loaded" }));
+  };
+
+  const handleImageError = (albumId) => {
+    setImageStatus((prev) => ({ ...prev, [albumId]: "error" }));
+  };
+
   return (
     <Tabs defaultActiveKey="1" centered>
       <TabPane tab="ALBUMS" key="1">
-        <h1 className="featuredTitle">Latest</h1>
-        {!walletConnected ? (
-          <div className="wallet-connect-prompt">
-            Please connect your wallet to view albums.
-          </div>
-        ) : (
-          <div className="albums">
-            {albumData.map((album) => (
-              <Link
-                to={`/album/${album.address}`}
-                state={album}
-                className="albumSelection"
-                key={album.address}
-              >
+        <div className="albums">
+          {albumData.map((album) => (
+            <Link
+              to={`/album/${album.address}`}
+              state={album}
+              className="albumSelection"
+              key={album.address}
+            >
+              <div className="image-container">
+                {imageStatus[album.address] !== "loaded" && (
+                  <div>
+                    {imageStatus[album.address] === "error"
+                      ? "Album Cover"
+                      : "Loading..."}
+                  </div>
+                )}
                 <img
                   src={album.image}
                   alt="album cover"
-                  style={{ width: "150px", marginBottom: "10px" }}
+                  style={
+                    imageStatus[album.address] === "loaded"
+                      ? {}
+                      : { display: "none" }
+                  }
+                  onLoad={() => handleImageLoaded(album.address)}
+                  onError={() => handleImageError(album.address)}
                 />
-                <p>{album.title}</p>
-              </Link>
-            ))}
-          </div>
-        )}
+              </div>
+              <p>{album.title}</p>
+            </Link>
+          ))}
+        </div>
       </TabPane>
     </Tabs>
   );

@@ -44,53 +44,71 @@ function AudioPlayer({ nftAlbum }) {
 
   return (
     <>
-      <div
-        className="buttons"
-        style={{ width: "300px", justifyContent: "start" }}
-      >
-        <img
-          className="cover"
-          src={currentTrack.coverImage}
-          alt="current cover"
-        />
-        <div>
-          <div className="songTitle">{currentTrack.name}</div>
-          <div className="songAlbum">{currentTrack.artistName}</div>
-        </div>
-      </div>
-      <div>
-        <div className="buttons">
-          <StepBackwardOutlined className="forback" onClick={toPrevTrack} />
-          {isPlaying ? (
-            <PauseCircleFilled className="pauseplay" onClick={toggle} />
-          ) : (
-            <PlayCircleFilled className="pauseplay" onClick={toggle} />
-          )}
-          <StepForwardOutlined className="forback" onClick={toNextTrack} />
-        </div>
-        <div className="buttons">
-          {minSec(trackProgress)}
-          <Slider
-            value={trackProgress}
-            step={1}
-            min={0}
-            max={duration ? duration : 0}
-            className="progress"
-            tooltipVisible={false}
-            onChange={(value) => onSearch(value)}
-            onAfterChange={onSearchEnd}
+      <div className="audio-player">
+        <div
+          className="buttons"
+          style={{ width: "300px", justifyContent: "start" }}
+        >
+          <img
+            className="cover"
+            src={currentTrack.coverImage}
+            alt="current cover"
           />
-          {duration ? minSec(Math.round(duration)) : "00:00"}
+          <div>
+            <div className="songTitle">{currentTrack.name}</div>
+            <div className="songAlbum">{currentTrack.artistName}</div>
+          </div>
         </div>
-      </div>
-      <div className="soundDiv">
-        <SoundOutlined />
-        <Slider
-          className="volume"
-          defaultValue={100}
-          tooltipVisible={false}
-          onChange={(value) => onVolume(value / 100)}
-        />
+        <div>
+          <div className="buttons">
+            <StepBackwardOutlined
+              style={{ color: "white" }}
+              className="forback"
+              onClick={toPrevTrack}
+            />
+            {isPlaying ? (
+              <PauseCircleFilled
+                style={{ color: "white" }}
+                className="pauseplay"
+                onClick={toggle}
+              />
+            ) : (
+              <PlayCircleFilled
+                style={{ color: "white" }}
+                className="pauseplay"
+                onClick={toggle}
+              />
+            )}
+            <StepForwardOutlined
+              style={{ color: "white" }}
+              className="forback"
+              onClick={toNextTrack}
+            />
+          </div>
+          <div className="buttons">
+            {minSec(trackProgress)}
+            <Slider
+              value={trackProgress}
+              step={1}
+              min={0}
+              max={duration ? duration : 0}
+              className="progress"
+              tooltipVisible={false}
+              onChange={(value) => onSearch(value)}
+              onAfterChange={onSearchEnd}
+            />
+            {duration ? minSec(Math.round(duration)) : "00:00"}
+          </div>
+        </div>
+        <div className="soundDiv">
+          <SoundOutlined />
+          <Slider
+            className="volume"
+            defaultValue={100}
+            tooltipVisible={false}
+            onChange={(value) => onVolume(value / 100)}
+          />
+        </div>
       </div>
     </>
   );

@@ -109,3 +109,32 @@
 .nftInfoText {
   color: white;
 }
+
+.nftInformation {
+  background-color: #282828; /* 或任何适合您设计的颜色 */
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  color: white;
+}
+
+.nftInformation h2 {
+  color: #fff;
+}
+
+.nftInformation p {
+  margin: 5px 0;
+}
+
+.nftInformation button {
+  background-color: #1db954;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nftInformation button:disabled {
+  background-color: #ccc;
+}

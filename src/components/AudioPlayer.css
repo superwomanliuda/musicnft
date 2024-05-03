@@ -36,12 +36,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 5px;
+  gap: 10px;
+  margin-bottom: 1px;
 }
 
 .progress {
   width: 400px;
+  height: 20px; /* 设置进度条高度 */
 }
 
 .progress .ant-slider-track {
@@ -53,7 +54,7 @@
 }
 
 .cover {
-  height: 80px;
+  height: 50px;
 }
 
 .songTitle {
@@ -64,4 +65,13 @@
 .songAlbum {
   color: white;
   font-size: 12px;
+}
+
+.audio-player {
+  position: relative;
+  padding: 10px;
+  background-color: #282828;
+  border-radius: 10px;
+  margin: 1px auto;
+  width: auto;
 }

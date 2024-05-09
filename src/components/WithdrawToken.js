@@ -43,6 +43,7 @@ const WithdrawToken = ({ albumAddress }) => {
   const handleOk = () => {
     setIsModalVisible(false);
     //window.location.reload(); // 刷新页面
+    fetchBalance();
   };
 
   useEffect(() => {
@@ -99,7 +100,7 @@ const WithdrawToken = ({ albumAddress }) => {
       <Button
         type="primary"
         onClick={handleWithdraw}
-        disabled={!account || isWithdrawing}
+        disabled={!account || isWithdrawing || parseFloat(balance) <= 0}
         loading={isWithdrawing}
       >
         Withdraw
@@ -108,7 +109,7 @@ const WithdrawToken = ({ albumAddress }) => {
         title="Withdrawal Result"
         visible={isModalVisible}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={handleOk}
         footer={[
           <Button key="submit" type="primary" onClick={handleOk}>
             Close
